@@ -1,0 +1,18 @@
+
+ <!-- *ngIf="mostrarMenu" -->
+<div class="colored border-0" id="sidebar-wrapper" *ngIf="mostrarMenu">
+  <div class="sidebar-heading">
+    <div class="navbar-text">
+      <img src="assets/img/rikka.jpg" class="img" style="margin-left: 39px;">
+
+    </div>
+  </div>
+  <div class="list-group list-group-flush">
+    <ul class="list list-group list-group-flush">
+    <li class="list-group list-group-flush" *ngFor="let lista of lstmenugst">
+      <a class="nav-link" [routerLink]="[lista.path]">
+        <fa [name]="lista.name"></fa>{{ lista.Titulo }}</a>
+    </li>
+  </ul>
+  </div>
+</div>

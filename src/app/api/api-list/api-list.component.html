@@ -1,0 +1,41 @@
+<div class="container-fluid" style="margin-bottom:25px;">
+
+  <h4 style="margin-top: 20px; margin-bottom: 45px; ">
+    Lista de API's</h4>
+
+  <div class="card">
+    <div class="card-header">
+      <input type="text" [(ngModel)]="filtro" placeholder="Procurar API">
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">API</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Status</th>
+        </tr>
+        </thead>
+
+        <tr *ngFor="let api of this.filro.fill(apis, filtro)">
+          <th scope="row"><a href="#">{{api.name}}</a></th>
+          <td>
+            <span *ngIf="api.type == 1">Aberta</span>
+            <span *ngIf="api.type == 2">Local</span>
+          </td>
+          <td>
+            <div style="  height: 25px;
+          width: 25px;
+          background-color: #bbb;
+          margin-left: 12px;
+          border-radius: 50%;
+          display: inline-block;" [ngClass]="{ 'bg-success':api.status, 'bg-danger':!api.status }">
+            </div>
+          </td>
+        </tr>
+
+      </table>
+
+    </div>
+  </div>
+</div>

@@ -1,2 +1,8 @@
 # Google App Engine generated folder
 appengine-generated/
+
+# Build and Release Folders
+node_modules/
+
+# Other files and folders
+.node_modules/

@@ -1,0 +1,35 @@
+<div class="container-fluid" style="margin-bottom:25px;">
+
+  <h4 style="margin-top: 20px; margin-bottom: 45px; ">
+    Funcionários</h4>
+
+  <div class="card">
+    <div class="card-header">
+      <input type="text" placeholder="Procurar funcionário" [(ngModel)]="input">
+    </div>
+    <div class="card-body">
+      <div class="row">
+
+        <!-- <div > -->
+        <div class="col-md-6" *ngFor="let pc of fillService.fillPC(pcs, input);">
+            <a routerLink="/detalhe" class="btn btn-fix ">
+            <div class="card">
+              <div class="card-header">
+                <h4 style="text-align: center">{{pc.name}}</h4>
+              </div>
+              <div class="card-body">
+                <p>{{pc.namePc}}</p>
+                <p>{{pc.processador}}</p>
+                <p>{{pc.armazenamento}}</p>
+                <span>{{pc.memoria}}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- </div> -->
+
+      </div>
+
+    </div>
+  </div>
+</div>
