@@ -13,6 +13,7 @@ export class PcDetailComponent implements OnInit {
   constructor(private chartsService: ChartsDataService, private route: ActivatedRoute,){}
   
   data = [];
+  horario = [];
 
   ngOnInit(){
     //setInterval(this.atualizarCharts, 3000)
@@ -25,7 +26,8 @@ export class PcDetailComponent implements OnInit {
         .subscribe(data => {
           for (let index = 0; index < data.length; index++) {
               console.log(data[index].vlLeituraCpu)
-              this.data.push(data[index].vlLeituraCpu)          
+              this.data.push(data[index].vlLeituraCpu)     
+              this.horario.push(data[index].leitura)     
           }
         })
     }
@@ -36,7 +38,7 @@ export class PcDetailComponent implements OnInit {
     ];
 
     //labels, talvez seria legal tirar o horario do banco, como no semestre anterior, ou talvez uma média diaria
-    public lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+    public lineChartLabels: Label[] = this.horario;
     public lineChartOptions: (ChartOptions & { annotation: any }) = {
       responsive: true,
       scales: {
