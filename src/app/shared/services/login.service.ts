@@ -18,35 +18,20 @@ const httpOptions = {
 
 
 export class LoginService {
-  private url = environment.urlapi + "/login";
-  constructor(private http: HttpClient, private router: Router) { }
+  private url = environment.urlapi + '/login';
+  constructor(private http: HttpClient) { }
   
   idcargo: Number = 1;
   estaLogado: Boolean;
   menuEmitter = new EventEmitter<Boolean>();
   funcionario: Funcionario;
+  resposta: any = {
+    token: String,
+    message: String,
+  }
 
   fazerLogin(login: String, senha: String){
-      // const obj = {
-      //   login: login,
-      //   senha: senha
-      // }
-      // this.http.post<Usuario>(this.url, obj, httpOptions)
-      //   .subscribe(data => {
-      //       if(!isNullOrUndefined(data)){
-      //         this.menuEmitter.emit(true);
-      //         return data;
-      //       }
-      //       this.menuEmitter.emit(false);
-      //   });
-
-      if(login === "haha" && senha === "hehe"){
-        this.menuEmitter.emit(true);
-        this.estaLogado = true;
-        this.router.navigate(['/gestor']);
-      }else{
-        this.menuEmitter.emit(false);
-      }
+      return this.http.post(this.url, { email: login, senha: senha })      
   }
 
   deslogar(){

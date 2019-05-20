@@ -6,7 +6,7 @@ export const environment = {
   production: false,
 
   //url do backend(node)
-  urlapi: 'localhost:3000/'
+  urlapi: 'http://localhost:3000'
 };
 
 /*
