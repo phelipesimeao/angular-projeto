@@ -28,6 +28,7 @@ export class LoginService {
   resposta: any = {
     token: String,
     message: String,
+    id: Number
   }
 
   fazerLogin(login: String, senha: String){

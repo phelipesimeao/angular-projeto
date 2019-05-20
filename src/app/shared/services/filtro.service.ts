@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Api } from '../../models/api';
 import { Pc } from '../../models/pc';
+import { Funcionario } from 'src/app/models/funcionario';
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +20,15 @@ export class FiltroService {
    );
   }
 
-  fillPC(pcs: Pc[], filtro: string){
-    if(pcs.length === 0 || filtro === undefined || filtro.trim() === ''){
-      return pcs;
+  fillFuncs(funcs: Funcionario[], filtro: string){
+    if(funcs.length === 0 || filtro === undefined || filtro.trim() === ''){
+      return funcs;
     }
 
-    return pcs.filter(
-      v => v.name.toLocaleLowerCase().includes(filtro.toLocaleLowerCase())
+    return funcs.filter(
+      v => v.nmFuncionario.toLocaleLowerCase().includes(filtro.toLocaleLowerCase())
    );
+   
   }
 
 }

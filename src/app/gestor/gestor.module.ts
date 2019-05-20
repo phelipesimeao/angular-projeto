@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { IndexComponent } from './index/index.component';
 import { CadfuncionarioComponent } from './cadfuncionario/cadfuncionario.component';
 import { GestorRoutingModule } from './gestour-routing.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { GestorRoutingModule } from './gestour-routing.module';
     AngularFontAwesomeModule,
     ApiModule,
     PcModule,
-    GestorRoutingModule
+    GestorRoutingModule,
+    FormsModule
   ],
   exports:[
     IndexComponent

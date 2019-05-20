@@ -2,7 +2,36 @@
     <div class="row">
         <div class="col-md-8">
             <!-- <p>PC's dos funcionários</p> -->
-            <app-pc-list></app-pc-list>
+            <div class="container-fluid" style="margin-bottom:25px;">
+                <h4 style="margin-top: 20px; margin-bottom: 45px; ">
+                  Funcionários</h4>
+                <div class="card">
+                  <div class="card-header">
+                    <input type="text" placeholder="Procurar funcionário" [(ngModel)]="input">
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <!-- <div > -->
+                      <div class="col-md-6" *ngFor="let lista of fillService.fillFuncs(listaFuncionarios, input)">
+                          <a routerLink="/detalhe/{{ lista.idComputador }}" class="btn btn-fix ">
+                          <div class="card">
+                            <div class="card-header">
+                              <h4 style="text-align: center">{{ lista.nmFuncionario }}</h4>
+                            </div>
+                            <div class="card-body">
+                              <p>{{ lista.nmComputador }}</p>
+                              <p>{{ lista.nmProcessador }}</p>
+                              <p>{{ lista.vlArmazenamento }}</p>
+                              <span>{{ lista.vlMemoriaRam }}</span>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                      <!-- </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
         <div class="col-md-4">
             <app-api-list></app-api-list>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { IndexComponent } from './index/index.component';
 import { CadfuncionarioComponent } from './cadfuncionario/cadfuncionario.component';
+import { PcDetailComponent } from '../pc/pc-detail/pc-detail.component';
 
 const gestRoutes: Routes = [
   { 
@@ -11,6 +12,10 @@ const gestRoutes: Routes = [
   {
     path: 'cadastro-funcionario',
     component: CadfuncionarioComponent
+  },
+  {
+    path: 'detalhe/:id',
+    component: PcDetailComponent
   }
 ];
 

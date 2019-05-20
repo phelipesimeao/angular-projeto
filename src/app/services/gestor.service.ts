@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Funcionario } from '../models/funcionario';
 import { Api } from '../models/api';
 import { PcDados } from '../models/pcdados';
+import { Observable } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -21,8 +22,9 @@ export class GestorService {
   constructor(private http: HttpClient) { }
   private url = environment.urlapi + "/gestor";
 
-  getFuncionarios(){
-    return this.http.get<Funcionario[]>(this.url + `/funcionarios`);
+  getFuncionarios(id: number): Observable<Funcionario[]> {
+    console.log(id)
+    return this.http.get<Funcionario[]>(this.url + `/funcionarios/${id}`);
   } 
 
   getApis(){

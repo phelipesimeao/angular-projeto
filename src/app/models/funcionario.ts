@@ -1,15 +1,13 @@
 import { Pc } from './pc';
-import { Menu } from './menu';
+//import { Menu } from './menu';
 import { Api } from './api';
 
 export class Funcionario{
-    id: String;
-    nome: String;
-    email: String;
-    senha: String;
+    idFuncionario: Number;
+    nmFuncionario: String;
+    nmEmail: String;
+    nmSenha: String;
     cargo: string;
-    funcionarios?: Funcionario[];
-    apis?: Api;
+    apis?: Api[];
     pc?: Pc;
-    menus: Menu[];
 }

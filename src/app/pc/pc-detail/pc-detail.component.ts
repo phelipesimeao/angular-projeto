@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
+import { ChartsDataService } from 'src/app/shared/services/charts-data.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-pc-detail',
@@ -8,7 +10,19 @@ import { Color, BaseChartDirective, Label } from 'ng2-charts';
   styleUrls: ['./pc-detail.component.scss']
 })
 export class PcDetailComponent implements OnInit {
-    ngOnInit(){
+  constructor(private chartsService: ChartsDataService, private route: ActivatedRoute,){}
+  
+  ngOnInit(){
+    //setInterval(this.atualizarCharts, 3000)
+    this.atualizarCharts();
+  }
+
+    atualizarCharts(){
+      const id = this.route.snapshot.params.id;
+      this.chartsService.getDadosPC(id)
+        .subscribe(data => {
+          console.log(data);
+        })
     }
 
     //colocar um array de numeros que será recebido do node
