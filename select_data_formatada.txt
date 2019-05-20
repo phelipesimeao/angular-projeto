@@ -1,2 +1,5 @@
-SELECT FORMAT( dtregistro, 'dd/MM/yyyy', 'en-US' ) AS 'DateTime Result' from tb_leitura_pc
+
+SELECT CONVERT(VARCHAR(11), dtregistro,108) from tb_leitura_pc
     where dtregistro < CONVERT(DATETIME,CONVERT(VARCHAR, GETDATE() ,112))
+
+    
