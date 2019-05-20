@@ -71,7 +71,7 @@ router.get('/computador/:id', (req, res) =>{
     
     global.conn.request()
         //adicionar inner join para computador
-        .query(`select top 10 *
+        .query(`select top 10 vlLeituraCpu, CONVERT(VARCHAR(11), dtregistro,108) as leitura
                     from tb_leitura_pc where idcomputador = ${idcomputador}`)
         .then(resultado => {
                 res.json(resultado.recordset);
