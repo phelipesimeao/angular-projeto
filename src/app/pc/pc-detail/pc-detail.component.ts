@@ -3,6 +3,7 @@ import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
 import { ChartsDataService } from 'src/app/shared/services/charts-data.service';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pc-detail',
@@ -14,27 +15,27 @@ export class PcDetailComponent implements OnInit {
   
   data = [];
   horario = [];
-
+  
   ngOnInit(){
-    //setInterval(this.atualizarCharts, 3000)
-    this.atualizarCharts();
-  }
-
-    atualizarCharts(){
-      const id = this.route.snapshot.params.id;
-      this.chartsService.getDadosPC(id)
+    const id = this.route.snapshot.params.id;
+    setInterval(()=>{  
+        this.chartsService.getDadosPC(id)
         .subscribe(data => {
-          for (let index = 0; index < data.length; index++) {
-              console.log(data[index].vlLeituraCpu)
-              this.data.push(data[index].vlLeituraCpu)     
-              this.horario.push(data[index].leitura)     
+          console.log(data);
+          for (let index = 0; index < 10 ; index++) {
+            this.data[index] = data[index].vlLeituraCpu;
+            this.horario[index] = data[index].dtregistro;
           }
+          console.log(this.data)
+          console.log(this.horario)
         })
-    }
+        
+    }, 1000);
+  }
 
     //colocar um array de numeros que será recebido do node
     public lineChartData: ChartDataSets[] = [
-      { data: this.data, label: 'Processamento' },
+      { data: this.data.reverse(), label: 'Processamento' },
     ];
 
     //labels, talvez seria legal tirar o horario do banco, como no semestre anterior, ou talvez uma média diaria

@@ -71,10 +71,18 @@ router.get('/computador/:id', (req, res) =>{
     
     global.conn.request()
         //adicionar inner join para computador
-        .query(`select top 10 vlLeituraCpu, CONVERT(VARCHAR(11), dtregistro,108) as leitura
-                    from tb_leitura_pc where idcomputador = ${idcomputador}`)
+        .query(`select top 10 vlLeituraCpu, CONVERT(VARCHAR(11), dtregistro,108) as dtregistro
+                    from tb_leitura_pc where idcomputador = ${idcomputador} order by idleitura desc`)
         .then(resultado => {
-                res.json(resultado.recordset);
+
+                let obj = [{
+                    dado: Number,
+                    hora: String,
+                }]
+                
+                obj = resultado.recordset
+
+                res.json(obj)
         })
         .catch(err => console.error(err));
 
