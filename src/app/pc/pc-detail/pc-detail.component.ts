@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 export class PcDetailComponent implements OnInit {
   constructor(private chartsService: ChartsDataService, private route: ActivatedRoute,){}
   
+  data = [];
+
   ngOnInit(){
     //setInterval(this.atualizarCharts, 3000)
     this.atualizarCharts();
@@ -21,13 +23,16 @@ export class PcDetailComponent implements OnInit {
       const id = this.route.snapshot.params.id;
       this.chartsService.getDadosPC(id)
         .subscribe(data => {
-          console.log(data);
+          for (let index = 0; index < data.length; index++) {
+              console.log(data[index].vlLeituraCpu)
+              this.data.push(data[index].vlLeituraCpu)          
+          }
         })
     }
 
     //colocar um array de numeros que será recebido do node
     public lineChartData: ChartDataSets[] = [
-      { data: [65, 59, 80, 81, 56, 55, 40], label: 'Processamento' },
+      { data: this.data, label: 'Processamento' },
     ];
 
     //labels, talvez seria legal tirar o horario do banco, como no semestre anterior, ou talvez uma média diaria
