@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChartDataSets, ChartOptions } from 'chart.js';
+import { Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
 import { ChartsDataService } from 'src/app/shared/services/charts-data.service';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pc-detail',
@@ -11,27 +10,62 @@ import { Observable } from 'rxjs';
   styleUrls: ['./pc-detail.component.scss']
 })
 export class PcDetailComponent implements OnInit {
-  constructor(private chartsService: ChartsDataService, private route: ActivatedRoute,){}
+  constructor(private chartsService: ChartsDataService, private route: ActivatedRoute,){
+    this.pieChartLabels = ['Armazenamento', 'Total'];
+    this.pieChartData = [100, 0];
+  }
   
   data = [];
   horario = [];
-  
+  armazenamentoTotal: number;
+  armazenamentoTotalRam: any;
   ngOnInit(){
     const id = this.route.snapshot.params.id;
-    setInterval(()=>{  
-        this.chartsService.getDadosPC(id)
+    this.getArmazenamentoRamTotal(id);
+
+    setInterval(()=>{ 
+        this.chartsService.getDadosProcessamentoPC(id)
         .subscribe(data => {
-          console.log(data);
+          let data0;
+          let data1;
           for (let index = 0; index < 10 ; index++) {
             this.data[index] = data[index].vlLeituraCpu;
             this.horario[index] = data[index].dtregistro;
+            
+            data0 =  data[index].vlLeituraCpu;
+            this.alterargrafico(data0);
           }
-          console.log(this.data)
-          console.log(this.horario)
         })
         
-    }, 1000);
+    }, 5000);
   }
+
+
+    alterargrafico(valor){
+      this.pieChartData.pop()
+      this.pieChartData.push(valor);
+    }
+
+    getArmazenamentoRamTotal(id){
+      this.chartsService.getMemoriaeRamTotal(id)
+        .subscribe(
+          resultado => {
+            let string: any = resultado[0].vlarmazenamento;
+            if(string.includes('TiB')){
+              let nova = string.split(" ");
+              this.armazenamentoTotal = nova[0] * 1000;
+            }else if (string.includes('GiB')){
+              let nova = string.split(" ");
+              this.armazenamentoTotal  = nova[0];
+            }
+            
+            let string2: any = resultado[0].vlmemoriaram;
+            let nova = string2.split(" ");
+            this.armazenamentoTotalRam = nova[0];
+
+          }
+        )
+   }
 
     //colocar um array de numeros que será recebido do node
     public lineChartData: ChartDataSets[] = [
@@ -50,17 +84,6 @@ export class PcDetailComponent implements OnInit {
             id: 'y-axis-0',
             position: 'left',
           },
-          //linha da direita, não sei se é necessario deixar.
-          // {
-          //   id: 'y-axis-1',
-          //   position: 'right',
-          //   gridLines: {
-          //     color: 'rgba(255,0,0,0.3)',
-          //   },
-          //   ticks: {
-          //     fontColor: 'red',
-          //   }
-          // }
         ]
       },
       annotation: {
@@ -84,14 +107,6 @@ export class PcDetailComponent implements OnInit {
 
     //colocar em um json e fazer a chamada da pagina para tirar a "poluição" do código atual
     public lineChartColors: Color[] = [
-      { // grey
-        backgroundColor: 'rgba(148,159,177,0.2)',
-        borderColor: 'rgba(148,159,177,1)',
-        pointBackgroundColor: 'rgba(148,159,177,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-      },
       { // dark grey
         backgroundColor: 'rgba(77,83,96,0.2)',
         borderColor: 'rgba(77,83,96,1)',
@@ -100,18 +115,9 @@ export class PcDetailComponent implements OnInit {
         pointHoverBackgroundColor: '#fff',
         pointHoverBorderColor: 'rgba(77,83,96,1)'
       },
-      { // red
-        backgroundColor: 'rgba(255,0,0,0.3)',
-        borderColor: 'red',
-        pointBackgroundColor: 'rgba(148,159,177,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-      }
     ];
     public lineChartLegend = true;
     public lineChartType = 'line';
-    //public lineChartPlugins = [pluginAnnotations];
   
 
     //daqui para baixo são tudo eventos, não sei se há algum util para o grupo, 
@@ -163,5 +169,60 @@ export class PcDetailComponent implements OnInit {
     //   this.lineChartLabels[2] = ['1st Line'];
     //   // this.chart.update();
     // }
+
+
+
+    public pieChartOptions: ChartOptions = {
+      responsive: true,
+      rotation: 1 * Math.PI,
+      circumference: 1 * Math.PI,
+      legend: {
+        position: 'top',
+      },
+      plugins: {
+        datalabels: {
+          formatter: (value, ctx) => {
+            const label = ctx.chart.data.labels[ctx.dataIndex];
+            return label;
+          },
+        },
+      }
+    };
+    public pieChartLabels: Label[];
+    public pieChartData: number[];
+    public pieChartType: ChartType = 'pie';
+    public pieChartLegend = true;
+    public pieChartColors = [
+      {
+        backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
+      },
+    ];
+  
+    
+    changeLabels() {
+      const words = ['hen', 'variable', 'embryo', 'instal', 'pleasant', 'physical', 'bomber', 'army', 'add', 'film',
+        'conductor', 'comfortable', 'flourish', 'establish', 'circumstance', 'chimney', 'crack', 'hall', 'energy',
+        'treat', 'window', 'shareholder', 'division', 'disk', 'temptation', 'chord', 'left', 'hospital', 'beef',
+        'patrol', 'satisfied', 'academy', 'acceptance', 'ivory', 'aquarium', 'building', 'store', 'replace', 'language',
+        'redeem', 'honest', 'intention', 'silk', 'opera', 'sleep', 'innocent', 'ignore', 'suite', 'applaud', 'funny'];
+      const randomWord = () => words[Math.trunc(Math.random() * words.length)];
+      this.pieChartLabels = Array.apply(null, { length: 3 }).map(_ => randomWord());
+    }
+  
+    addSlice() {
+      this.pieChartLabels.push(['Line 1', 'Line 2', 'Line 3']);
+      this.pieChartData.push(400);
+      this.pieChartColors[0].backgroundColor.push('rgba(196,79,244,0.3)');
+    }
+  
+    removeSlice() {
+      this.pieChartLabels.pop();
+      this.pieChartData.pop();
+      this.pieChartColors[0].backgroundColor.pop();
+    }
+  
+    changeLegendPosition() {
+      this.pieChartOptions.legend.position = this.pieChartOptions.legend.position === 'left' ? 'top' : 'left';
+    }
 }
 

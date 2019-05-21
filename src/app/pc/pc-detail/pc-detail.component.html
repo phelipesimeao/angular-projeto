@@ -29,3 +29,22 @@
       <button mat-button mat-raised-button color="primary" (click)="changeLabel()">Change Label</button> -->
     </div>
   </div>
+
+
+  <div class="col-md-4 flex">
+    <div>
+      <div class="chart">
+        <canvas baseChart
+          [data]="pieChartData"
+          [labels]="pieChartLabels"
+          [chartType]="pieChartType"
+          [options]="pieChartOptions"
+          [plugins]="pieChartPlugins"
+          [colors]="pieChartColors"
+          [legend]="pieChartLegend">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <br><br>

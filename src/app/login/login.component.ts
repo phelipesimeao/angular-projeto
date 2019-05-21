@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
     this.mostrarSpinner = true;
     console.log(this.login);
     console.log(this.senha);
+    
+
     this.loginService.fazerLogin("adm", "adm")
     .subscribe(data => {
       console.log(data)

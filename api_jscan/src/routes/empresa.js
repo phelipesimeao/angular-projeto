@@ -88,4 +88,22 @@ router.get('/computador/:id', (req, res) =>{
 
 });
 
+router.get('/computador/total/:id', (req, res) =>{
+    let idcomputador = req.params.id;
+    
+    global.conn.request()
+        //adicionar inner join para computador
+        .query(`select vlmemoriaram, vlarmazenamento from tb_computador where idcomputador = ${idcomputador}`)
+        .then(resultado => {
+
+                let obj = resultado.recordset
+                console.log(obj)
+                res.json(obj)
+
+        })
+        .catch(err => console.error(err));
+
+});
+
+
 export default router;
