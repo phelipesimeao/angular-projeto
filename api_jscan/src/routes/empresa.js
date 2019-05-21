@@ -105,5 +105,23 @@ router.get('/computador/total/:id', (req, res) =>{
 
 });
 
+router.get('/computador/armazenamento/:id', (req, res) =>{
+    let idcomputador = req.params.id;
+    
+    global.conn.request()
+        //adicionar inner join para computador
+        .query(`select top 1 round(vlLeituraArmazenamento / 1073741824, 0) as vlLeituraArmazenamento, vlleituramemoria from tb_leitura_pc where idcomputador = ${idcomputador} order by idleitura desc`)
+        .then(resultado => {
+
+                let obj = resultado.recordset
+                console.log(obj)
+                res.json(obj)
+
+        })
+        .catch(err => console.error(err));
+
+});
+
+
 
 export default router;
