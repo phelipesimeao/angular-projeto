@@ -46,7 +46,7 @@ export class PcDetailComponent implements OnInit {
           this.alterargrafico(data[0].vlLeituraArmazenamento)
       })
       
-  }, 300000);
+  }, 1000);
   }
 
 
