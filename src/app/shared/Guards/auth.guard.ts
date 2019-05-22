@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 
   private verificarAcesso(){
     
-    if(this.authService.estaLogado && this.authService.idcargo == 1){
+    if(this.authService.estaLogado && this.authService.resposta.cargo == 1){
       return true;
     }
     console.log("sem permissao");
