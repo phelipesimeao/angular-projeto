@@ -71,7 +71,7 @@ router.get('/computador/:id', (req, res) =>{
     
     global.conn.request()
         //adicionar inner join para computador
-        .query(`select top 10 vlLeituraCpu, CONVERT(VARCHAR(11), dtregistro,108) as dtregistro
+        .query(`select top 10 round(vlLeituraCpu, 2) as vlLeituraCpu, CONVERT(VARCHAR(11), dtregistro,108) as dtregistro
                     from tb_leitura_pc where idcomputador = ${idcomputador} order by idleitura desc`)
         .then(resultado => {
 
@@ -83,6 +83,18 @@ router.get('/computador/:id', (req, res) =>{
                 obj = resultado.recordset
 
                 res.json(obj)
+
+                // let obj = {
+                //     dado: [],
+                //     hora: [],
+                // }
+
+                // resultado.recordset.forEach(element => {
+                //     obj.dado.push(element.vlLeituraCpu)
+                //     obj.hora.push(element.dtregistro)
+                // });
+
+                // res.json(obj)
         })
         .catch(err => console.error(err));
 

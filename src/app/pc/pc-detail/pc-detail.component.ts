@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PcDetailComponent implements OnInit {
   constructor(private chartsService: ChartsDataService, private route: ActivatedRoute,){
-    this.pieChartLabels = ['Armazenamento', 'Total'];
+    this.pieChartLabels = ['Armazenamento', 'Disponivel'];
     
   }
   
@@ -19,22 +19,21 @@ export class PcDetailComponent implements OnInit {
   horario = [];
   armazenamentoTotal: number;
   armazenamentoTotalRam: any;
-  ngOnInit(){
+  async ngOnInit(){
     const id = this.route.snapshot.params.id;
     this.getArmazenamentoRamTotal(id);
     this.pieChartData = [100, 0];
+
+    let valors = await this.chartsService.getDadosProcessamentoPC(id).toPromise();
+
     setInterval(()=>{ 
         this.chartsService.getDadosProcessamentoPC(id)
         .subscribe(data => {
-          let data0;
-          let data1;
           for (let index = 0; index < 10 ; index++) {
             this.data[index] = data[index].vlLeituraCpu;
             this.horario[index] = data[index].dtregistro;
-            
-            data0 =  data[index].vlLeituraCpu;
-            //this.pieChartData = [this.data[9], 100 - this.data[9]];
           }
+          console.log(this.horario.reverse())
         })
         
     }, 2000);
@@ -42,16 +41,13 @@ export class PcDetailComponent implements OnInit {
     setInterval(()=>{ 
       this.chartsService.getArmazenamentoUtilizado(id)
       .subscribe(data => {  
-          console.log(data)
           this.alterargrafico(data[0].vlLeituraArmazenamento)
       })
-      
   }, 1000);
   }
 
 
     alterargrafico(valor){
-      console.log(valor)
       this.pieChartData = [valor, this.armazenamentoTotal - valor];
     }
 
@@ -78,11 +74,11 @@ export class PcDetailComponent implements OnInit {
 
     //colocar um array de numeros que será recebido do node
     public lineChartData: ChartDataSets[] = [
-      { data: this.data.reverse(), label: 'Processamento' }
+      { data: this.data, label: 'Processamento' }
     ];
 
     //labels, talvez seria legal tirar o horario do banco, como no semestre anterior, ou talvez uma média diaria
-    public lineChartLabels: Label[] = this.horario;
+    public lineChartLabels: Label[] = this.horario.reverse();
     public lineChartOptions: (ChartOptions & { annotation: any }) = {
       responsive: true,
       scales: {

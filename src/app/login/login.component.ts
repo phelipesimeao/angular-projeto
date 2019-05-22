@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../shared/services/login.service';
 import { Router } from '@angular/router';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -10,17 +11,24 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   login: String;
   senha: String;
-  constructor(private loginService: LoginService, private router: Router) { }
+
+  constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder) { }
   mostrarSpinner: boolean = false;
+  loginForm: FormGroup;
   ngOnInit() {
+    this.loginForm = this.fb.group({
+      email: ['', Validators.required],
+      senha: ['', Validators.required]
+    })
   }
+
+
   logar(){
     this.mostrarSpinner = true;
-    console.log(this.login);
-    console.log(this.senha);
+    
     
 
-    this.loginService.fazerLogin("adm", "adm")
+    this.loginService.fazerLogin(this.loginForm.get('email').value, this.loginForm.get('senha').value)
     .subscribe(data => {
       console.log(data)
       this.loginService.resposta = data;
@@ -31,9 +39,8 @@ export class LoginComponent implements OnInit {
         alert(this.loginService.resposta.message);
         this.router.navigate(['/gestor']);
       }else{
-        alert("Deu ruim");
+        alert(data.message);
       }
-      
-  });
+    });
   }
 }

@@ -23,8 +23,7 @@ export class GestorService {
   private url = environment.urlapi + "/gestor";
 
   getFuncionarios(id: number): Observable<Funcionario[]> {
-    console.log(id)
-    return this.http.get<Funcionario[]>(this.url + `/funcionarios/${id}`);
+    return this.http.get<Funcionario[]>(this.url + `/funcionarios/${id}`)
   } 
 
   getApis(){

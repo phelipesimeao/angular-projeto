@@ -3,6 +3,7 @@ import { GestorService } from 'src/app/services/gestor.service';
 import { LoginService } from 'src/app/shared/services/login.service';
 import { Funcionario } from 'src/app/models/funcionario';
 import { FiltroService } from 'src/app/shared/services/filtro.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-index-gst',
@@ -18,13 +19,15 @@ export class IndexComponent implements OnInit {
 
   listaFuncionarios: Funcionario[];
   input: string;
+  lista$;
 
-  ngOnInit() {
-    this.gestorService.getFuncionarios(this.loginService.resposta.id)
-      .subscribe(funcionarios => {
-        this.listaFuncionarios = funcionarios;
-        console.log(funcionarios);
-      })
+  async ngOnInit() {
+    this.lista$ = await this.gestorService.getFuncionarios(this.loginService.resposta.id).toPromise();
+    console.log(this.lista$);
+    // this.gestorService.getFuncionarios(this.loginService.resposta.id)
+    //   .subscribe(funcionarios => {
+    //     this.listaFuncionarios = funcionarios;
+    //   })
 
       //setInterval(funcao, tempo)
   }
