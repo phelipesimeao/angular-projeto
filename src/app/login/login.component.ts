@@ -11,11 +11,14 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 export class LoginComponent implements OnInit {
   login: String;
   senha: String;
-
-  constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder) { }
-  mostrarSpinner: boolean = false;
+  mostrarSpinner;
   loginForm: FormGroup;
+
+  constructor(private loginService: LoginService, private fb: FormBuilder) { }
+  
   ngOnInit() {
+    this.loginService.mostrarSpinner.subscribe(bool => this.mostrarSpinner = bool);
+    console.log(this.mostrarSpinner)
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
       senha: ['', Validators.required]
@@ -24,23 +27,8 @@ export class LoginComponent implements OnInit {
 
 
   logar(){
-    this.mostrarSpinner = true;
-    
-    
 
     this.loginService.fazerLogin(this.loginForm.get('email').value, this.loginForm.get('senha').value)
-    .subscribe(data => {
-      console.log(data)
-      this.loginService.resposta = data;
-      if(this.loginService.resposta.token){
-        this.loginService.estaLogado = true;
-        this.loginService.menuEmitter.emit(true);
-        this.mostrarSpinner = false;
-        alert(this.loginService.resposta.message);
-        this.router.navigate(['/gestor']);
-      }else{
-        alert(data.message);
-      }
-    });
+    
   }
 }

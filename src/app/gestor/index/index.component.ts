@@ -17,13 +17,18 @@ export class IndexComponent implements OnInit {
     public fillService: FiltroService
     ) { }
 
-  listaFuncionarios: Funcionario[];
-  input: string;
-  lista$;
+    listaFuncionarios: Funcionario[];
+    input: string = '';
+    listaFuncs$;
 
   async ngOnInit() {
-    this.lista$ = await this.gestorService.getFuncionarios(this.loginService.resposta.id).toPromise();
-    console.log(this.lista$);
+    this.listaFuncs$ = await this.gestorService.getFuncionarios(this.loginService.resposta.id).toPromise();
+    console.log(this.listaFuncs$);
+    
+    // filtro service
+    // this.listaApis$ = await this.gestorService.getApis(this.loginService.resposta.id).toPromise();
+    // console.log(this.listaApis$);
+
     // this.gestorService.getFuncionarios(this.loginService.resposta.id)
     //   .subscribe(funcionarios => {
     //     this.listaFuncionarios = funcionarios;

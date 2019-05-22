@@ -21,7 +21,7 @@ export class FiltroService {
   }
 
   fillFuncs(funcs: Funcionario[], filtro: string){
-    if(funcs.length === 0 || filtro === undefined || filtro.trim() === ''){
+    if(funcs.length == 0 || filtro === undefined || filtro.trim() === ''){
       return funcs;
     }
 

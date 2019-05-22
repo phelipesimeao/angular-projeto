@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
 
         //buscar o usuário no banco
         global.conn.request()
-            .query(`SELECT nmSenha, idFuncionario FROM TB_FUNCIONARIO WHERE NMEMAIL = '${email}'`)
+            .query(`SELECT nmSenha, idFuncionario, idtipo FROM TB_FUNCIONARIO WHERE NMEMAIL = '${email}'`)
             .then(user => {
                 //verifica se trouxe alguma coisa
                 if (user.recordset.length > 0) {
@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
                         let payload = { id: user.recordset[0].idFuncionario };
                         let token = jwt.sign(payload, process.env.SECRET_KEY);
                         //e responde, com status de sucesso, uma mensagem de OK e o token (que será usado no front)
-                        res.json({ message: "ok", token: token, id: user.recordset[0].idFuncionario }).status(200);
+                        res.json({ message: "ok", token: token, id: user.recordset[0].idFuncionario, cargo: user.recordset[0].idtipo }).status(200);
                     } else {
                         //mensagem de senha incorreta com status de não autorizado
                         res.json({"message":"senha incorreta"}).status(401);

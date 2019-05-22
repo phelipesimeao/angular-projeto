@@ -26,8 +26,8 @@ export class GestorService {
     return this.http.get<Funcionario[]>(this.url + `/funcionarios/${id}`)
   } 
 
-  getApis(){
-    return this.http.get<Api[]>(this.url + `/api`);
+  getApis(id: number){
+    return this.http.get<Api[]>(this.url + `/api/${id}`);
   } 
 
   //nao sei oq colocar na model de detalhe 

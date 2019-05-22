@@ -19,12 +19,12 @@ export class PcDetailComponent implements OnInit {
   horario = [];
   armazenamentoTotal: number;
   armazenamentoTotalRam: any;
-  async ngOnInit(){
+  ngOnInit(){
     const id = this.route.snapshot.params.id;
-    this.getArmazenamentoRamTotal(id);
+    this.getArmazenamentoTotal(id);
     this.pieChartData = [100, 0];
 
-    let valors = await this.chartsService.getDadosProcessamentoPC(id).toPromise();
+    //let valors = await this.chartsService.getDadosProcessamentoPC(id).toPromise();
 
     setInterval(()=>{ 
         this.chartsService.getDadosProcessamentoPC(id)
@@ -33,7 +33,6 @@ export class PcDetailComponent implements OnInit {
             this.data[index] = data[index].vlLeituraCpu;
             this.horario[index] = data[index].dtregistro;
           }
-          console.log(this.horario.reverse())
         })
         
     }, 2000);
@@ -43,7 +42,8 @@ export class PcDetailComponent implements OnInit {
       .subscribe(data => {  
           this.alterargrafico(data[0].vlLeituraArmazenamento)
       })
-  }, 1000);
+    }, 1000);
+
   }
 
 
@@ -51,14 +51,17 @@ export class PcDetailComponent implements OnInit {
       this.pieChartData = [valor, this.armazenamentoTotal - valor];
     }
 
-    getArmazenamentoRamTotal(id){
+    getArmazenamentoTotal(id){
       this.chartsService.getMemoriaeRamTotal(id)
         .subscribe(
           resultado => {
+            console.log(resultado)
             let string: any = resultado[0].vlarmazenamento;
             if(string.includes('TiB')){
               let nova = string.split(" ");
+              console.log(nova)
               this.armazenamentoTotal = nova[0] * 1000;
+              console.log(this.armazenamentoTotal)
             }else if (string.includes('GiB')){
               let nova = string.split(" ");
               this.armazenamentoTotal  = nova[0];

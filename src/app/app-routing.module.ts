@@ -1,23 +1,25 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PcDetailComponent } from './pc/pc-detail/pc-detail.component';
 import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './shared/Guards/auth.guard';
+import { GestorGuard } from './shared/Guards/gestor.guard';
+import { DevGuard } from './shared/Guards/dev.guard';
 
 const routes: Routes = [
   // { path: 'detalhe', component: PcDetailComponent},
   { 
     path: 'gestor', 
     loadChildren: 'src/app/gestor/gestor.module#GestorModule', 
-    canLoad: [AuthGuard],
-    canActivate: [AuthGuard]
+    canLoad: [GestorGuard],
+    canActivate: [GestorGuard],
+    canActivateChild: [GestorGuard]
   },
 
   { 
     path: 'dev', 
     loadChildren: 'src/app/desenvolvedor/desenvolvedor.module#DesenvolvedorModule', 
-    canLoad: [AuthGuard],
-    canActivate: [AuthGuard]
+    canLoad: [DevGuard],
+    canActivate: [DevGuard],
+    canActivateChild: [DevGuard]
   },
 
   { 
