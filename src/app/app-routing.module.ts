@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { GestorGuard } from './shared/Guards/gestor.guard';
 import { DevGuard } from './shared/Guards/dev.guard';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   // { path: 'detalhe', component: PcDetailComponent},
@@ -22,10 +23,17 @@ const routes: Routes = [
     canActivateChild: [DevGuard]
   },
 
-  { 
-    path: '', 
+  {
+    path: '',
     component: LoginComponent
+  },
+
+  {
+    path: 'register',
+    component: RegisterComponent
   }
+
+
 
 ];
 
