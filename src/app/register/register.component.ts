@@ -20,10 +20,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.registerForm = this.fb.group({
       nome: ['', Validators.required],
+      telefone: ['', Validators.required],
       nomeEmpresa: ['', Validators.required],
       cnpj: ['', Validators.required],
       email: ['', Validators.email],
-      senha: ['', Validators.required]
+      senha: ['', Validators.required],
     })
   }
 
